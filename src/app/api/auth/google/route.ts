@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 // GET request
-export async function GET (req: NextRequest, res : NextResponse) {
+export async function POST (req: NextRequest, res : NextResponse) {
 
     //Get the request body
-    // let request = await req.formData()
+    let request = req.formData()
 
     //Data response
     let data = {
-        welcomeText : "Welcomt to Rizz101"
+        welcomeText : "Rizz101 - Google pay"
     }
 
     //Response
