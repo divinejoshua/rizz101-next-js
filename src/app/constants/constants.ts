@@ -1,0 +1,2 @@
+export const AUTH_PROVIDER_GOOGLE = "GOOGLE"
+export const AUTH_PROVIDER_APPLE = "APPLE"

@@ -1,16 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
+import { jwtDecode } from "jwt-decode";
+import { AUTH_PROVIDER_GOOGLE } from "@/app/constants/constants";
 
-
-// GET request
+// POST request
 export async function POST (req: NextRequest, res : NextResponse) {
 
     //Get the request body
-    let request = req.formData()
+    let request = await req.formData()
+
+    let token = request.get("userIdToken") || ""
+    let decode : any = jwtDecode(token.toString());
+
+    // The user Object
+    let user = {
+        fullName : decode.name,
+        email : decode.name,
+        authProvider : AUTH_PROVIDER_GOOGLE
+    }
 
     //Data response
-    let data = {
-        welcomeText : "Rizz101 - Google pay"
-    }
+    let data = user
 
     //Response
     return NextResponse.json(data, {
