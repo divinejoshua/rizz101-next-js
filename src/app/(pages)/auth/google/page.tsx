@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import {auth, signInWithGooglePopup } from '../../../utils/firebase'
+import {auth, signInWithGooglePopup } from '../../../firebase/firebase'
 import googleBtnSvg from "../../../../../public/google.svg";
 import Image from 'next/image';
 
