@@ -24,7 +24,9 @@ export default function GoogleLoginPage() {
     if(userIdToken){
       const queryParameters = new URLSearchParams(window.location.search)
       const redirectUrl = queryParameters.get("redirectUrl")
-      window.location.href = `${redirectUrl}?idToken=${userIdToken}`;
+      if(redirectUrl){
+          window.location.href = `${redirectUrl}?idToken=${userIdToken}`;
+      }
     }
       // eslint-disable-next-line
   }, [userIdToken]);
