@@ -3,6 +3,8 @@ import useUser from "@/app/hooks/useUserHook";
 import { NextApiRequest } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
+// IMPORTANT! Set the runtime to edge
+export const runtime = 'edge';
 
 // GET request
 export async function GET (req: NextRequest,  { params }: { params: { userId: string } }) {
