@@ -1,85 +1,84 @@
-import { useEffect, useState } from "react";
 import IUser from "@/app/interface/user.interface";
-import firebase from '../firebase/firebase';
-import {
-    doc,
-    onSnapshot,
-    setDoc,
-    collection,
-    query,
-    where,
-  } from 'firebase/firestore';
+import { getFirestore } from "firebase-admin/firestore"
+import { v4 as uuidv4 } from 'uuid';
+import { initAdmin } from "../firebase/firebaseAdmin";
 
-const useUser = (user : any) => {
+
+
+
+
+const useUser = () => {
+
+    initAdmin()
 
     // STATES
-    const colletionRef = collection(firebase, 'users');
-    const [recieverUserDetails, setrecieverUserDetails] = useState<IUser>({})
 
     // This is findUserById and Then create a new user if it doesn't exist
-    const findUserById = async (user :any) : Promise<void> =>{
+    const getOrCreateUser = async (user :IUser) =>{
+        if(!user.email) {throw("Email is missing")}
+        let response = null
+        const firestore = getFirestore()
+        const usersRef = firestore.collection('users');
+        const snapshot = await usersRef.where('email', '==', user.email).get();
 
-        // Query Statement
-        const queryClause = query(
-            colletionRef,
-            where('id', '==', user.uid),
-        );
-        let userData : any = {}
-
-        // Get user details from database
-        onSnapshot(queryClause, (querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                userData = doc.data()
+        //if user not found, create new user and get new details
+        if (snapshot.empty) {
+            let newUserId = await createNewUser(user)
+            const newUserSnapshot = await firestore.collection("users").doc(newUserId).get()
+            response = newUserSnapshot.data()
+        } else {
+            snapshot.forEach(existingUserDoc => {
+                response = existingUserDoc.data()
             });
-
-              // Create user if non exist
-              if(!userData.id){
-                createNewUser(user)
-            }
-        });
-        return
-    }
-
-    const createNewUser = async (user : any) =>{
-        let newUser : IUser = {
-            id: user.uid,
-            email : user.email,
-            fullname : user.displayName,
-            authProvider : user.photoURL
-        };
-
-        try {
-            const userRef = doc(colletionRef, newUser.id);
-            await setDoc(userRef, newUser);
-            } catch (error) {
-            console.error(error);
         }
-        return
+
+        // Return the user
+        return response
     }
+
+    //Create new user
+    const createNewUser = async (user : IUser) => {
+        if(!user.email) {throw("Email is missing")}
+
+        let response : any = {}
+        const userId = uuidv4() //Generate new user id
+        const firestore = getFirestore()
+        await firestore.collection('users').doc(userId).set({
+            id : userId,
+            email: user.email,
+            name: user.name,
+            authProvider: user.authProvider,
+            isSubscribed: false,
+          }).then(() => {
+            response = userId
+          }).catch((error) => {
+            console.error('Error registering user: ', error);
+          });
+
+        // Return the user
+          return response
+      }
+
 
     // This function only returns user details if user exist
-    const getUserById = (userId: string) : IUser =>{
+    const getUserById = async (userId: string) =>{
+        if(!userId) {throw("UserId is missing")}
+        let response = null
+        const firestore = getFirestore()
+        const usersRef = firestore.collection('users');
+        const snapshot = await usersRef.where('id', '==', userId).get();
 
-        let userData : IUser = {}
-
-        // Query Statement
-        const queryClause = query(
-            colletionRef,
-            where('id', '==', userId),
-        );
-
-        // Get user details from database
-        onSnapshot(queryClause, (querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                userData = doc.data()
-                setrecieverUserDetails(doc.data())
+        //if user not found, create new user and get new details
+        if (!snapshot.empty) {
+            snapshot.forEach(doc => {
+                response = doc.data()
             });
-
-        });
-        return userData
+        }
+        // Return the user
+        return response
     }
 
-    return { findUserById, createNewUser, getUserById, recieverUserDetails };
+    return { getOrCreateUser, createNewUser, getUserById };
 }
 
 export default useUser;

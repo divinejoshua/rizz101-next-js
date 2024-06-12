@@ -3,7 +3,7 @@ import { Timestamp } from "firebase/firestore";
 interface IUser {
     id?                 : string,
     email?              : string,
-    fullname?           : string,
+    name?           : string,
     authProvider?       : string,
     isSubscribed?       : boolean,
     lastPaymentDate?    : Timestamp

@@ -41,7 +41,7 @@ export default function GoogleLoginPage() {
             height={32}
             alt="Picture of the author"
           />
-              {/* <img alt="truetalk" src={googleBtnSvg} width={32}/> */}
+              {/* <img alt="rizz101" src={googleBtnSvg} width={32}/> */}
               <span className='ml-5 mt-1 mr-5'>Accept and continue</span>
           </button>
       </center>

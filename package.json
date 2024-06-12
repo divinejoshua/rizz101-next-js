@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/uuid": "^9.0.8",
     "axios": "^1.7.2",
     "firebase": "^10.12.2",
     "firebase-admin": "^12.1.1",
