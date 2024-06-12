@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// IMPORTANT! Set the runtime to edge
-export const runtime = 'edge';
-
 // GET request
 export async function POST (req: NextRequest, res : NextResponse) {
 

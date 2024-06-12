@@ -3,8 +3,6 @@ import { jwtDecode } from "jwt-decode";
 import { AUTH_PROVIDER_GOOGLE, AUTH_PROVIDER_APPLE, ERROR_MESSAGE_REGISTRATION_MISSING_EMAIL, ERROR_MESSAGE_REGISTRATION_FIREBASE_ERROR } from "@/app/constants/constants";
 import useUser from "@/app/hooks/useUserHook";
 
-// IMPORTANT! Set the runtime to edge
-export const runtime = 'edge';
 
 // POST request
 export async function POST (req: NextRequest, res : NextResponse) {
