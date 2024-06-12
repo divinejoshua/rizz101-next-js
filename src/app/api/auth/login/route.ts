@@ -6,9 +6,9 @@ import useUser from "@/app/hooks/useUserHook";
 // POST request
 export async function POST (req: NextRequest, res : NextResponse) {
 
-    const { getOrCreateUser, createNewUser} = useUser()
+    const { getOrCreateUser } = useUser()
 
-    let response
+    let response : any
 
 
     //Get the request body
