@@ -4,3 +4,4 @@ export const ERROR_MESSAGE_REGISTRATION_MISSING_EMAIL = "Error while registering
 export const ERROR_MESSAGE_REGISTRATION_FIREBASE_ERROR = "Error while registering user to database"
 export const ERROR_MESSAGE_USER_NOT_FOUND = "User not found"
 export const ERROR_MESSAGE_GET_USER_FIREBASE_ERROR = "Error while getting user from database"
+export const ERROR_MESSAGE_INVALID_CHAT_REQUEST = "Chat must have a prompt and a threadId in the request"

@@ -15,6 +15,7 @@ export default function Home() {
 
     const formData = new FormData();
     formData.append('prompt', JSON.stringify(data));
+    formData.append('threadId', "123456778");
     
     fetch('http://localhost:3000/api/chat', {
       method: 'POST',
@@ -45,6 +46,7 @@ export default function Home() {
 
     const formData = new FormData();
     formData.append('prompt', JSON.stringify(data));
+    formData.append('threadId', "987654321");
 
     fetch('http://localhost:3000/api/chat', {
       method: 'POST',

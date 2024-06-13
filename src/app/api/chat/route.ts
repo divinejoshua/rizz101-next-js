@@ -1,3 +1,5 @@
+import { ERROR_MESSAGE_INVALID_CHAT_REQUEST } from "@/app/constants/constants";
+import useChat from "@/app/hooks/useChatHook";
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
@@ -9,19 +11,37 @@ const openai = new OpenAI({
 // POST request
 export async function POST (req: NextRequest, res : NextResponse) {
 
+    //Hooks
+    const { saveChatToDb } = useChat()
+
     //Get the request body
     let request = await req.formData()
 
     let text : any = request.get('prompt')
 
+    let threadId : any = request.get('threadId')
+
+    // If no threadId or text
+    if (!threadId || !text){
+        return NextResponse.json({
+            error : true,
+            errorMessage : ERROR_MESSAGE_INVALID_CHAT_REQUEST
+        }, {
+            status: 400,
+        });
+    }
+
     let prompt = JSON.parse(text);
 
-    let gptResponse = await GPTResponder(prompt)
+    let aiResponse : any = await AIResponder(prompt)
 
     //Data response
     let data = {
-        response : gptResponse,
+        response : aiResponse,
     }
+
+    //Save chat to database
+    saveChatToDb(prompt, aiResponse, threadId)
 
     //Response
     return NextResponse.json(data, {
@@ -31,7 +51,7 @@ export async function POST (req: NextRequest, res : NextResponse) {
 
 
 // GPT response
-async function GPTResponder(prompt : any) {
+async function AIResponder(prompt : any) {
 
     // System prompt
     let system = {"role": "system", "content": `

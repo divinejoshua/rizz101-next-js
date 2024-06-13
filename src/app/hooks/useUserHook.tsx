@@ -3,15 +3,9 @@ import { getFirestore } from "firebase-admin/firestore"
 import { v4 as uuidv4 } from 'uuid';
 import { initAdmin } from "../firebase/firebaseAdmin";
 
-
-
-
-
 const useUser = () => {
 
     initAdmin()
-
-    // STATES
 
     // This is findUserById and Then create a new user if it doesn't exist
     const getOrCreateUser = async (user :IUser) =>{
