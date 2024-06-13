@@ -45,7 +45,7 @@ export default function Home() {
 
     const formData = new FormData();
     formData.append('prompt', JSON.stringify(data));
-    
+
     fetch('http://localhost:3000/api/chat', {
       method: 'POST',
       body: formData
