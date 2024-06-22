@@ -73,7 +73,33 @@ const useUser = () => {
         return response
     }
 
-    return { getOrCreateUser, createNewUser, getUserById };
+
+    // Function to update user's isSubscribed field to true
+    const updateUserSubscription = async (email : string, subscribeValue : boolean) => {
+        if (!email) { throw ("Email is missing") }
+        const firestore = getFirestore();
+        const usersRef = firestore.collection(USERS_FIREBASE_TABLE);
+        const snapshot = await usersRef.where('email', '==', email).get();
+
+        if (snapshot.empty) {
+            throw ("User not found");
+        }
+
+        let userId = null;
+        snapshot.forEach(existingUserDoc => {
+            userId = existingUserDoc.id;
+        });
+
+        if (userId) {
+            await usersRef.doc(userId).update({ isSubscribed: subscribeValue });
+            const updatedUserSnapshot = await usersRef.doc(userId).get();
+            return updatedUserSnapshot.data();
+        } else {
+            throw ("User Id not found");
+        }
+    }
+
+    return { getOrCreateUser, createNewUser, getUserById, updateUserSubscription };
 }
 
 export default useUser;

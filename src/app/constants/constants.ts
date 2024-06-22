@@ -8,3 +8,7 @@ export const ERROR_MESSAGE_INVALID_CHAT_REQUEST = "Chat must have a prompt and a
 export const USERS_FIREBASE_TABLE = "users"
 export const MESSAGES_FIREBASE_TABLE = "messages"
 export const PAYMENTS_FIREBASE_TABLE = "payments"
+export const WEBHOOK_EVENTS_CHARGE_SUCCESS = "charge.success"
+export const WEBHOOK_EVENTS_SUBSCRIPTION_NOT_RENEW = "subscription.not_renew"
+
+
