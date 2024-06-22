@@ -6,10 +6,11 @@ import { NextRequest, NextResponse } from "next/server";
 // POST request
 export async function POST (req: NextRequest, res : NextResponse) {
 
+    // Hooks
     const { saveTransactionEvent } = usePayment()
     const { updateUserSubscription } = useUser()
 
-    //Get the request body
+    //Data
     let request = await req.json()
 
     let event = request.event
@@ -18,17 +19,18 @@ export async function POST (req: NextRequest, res : NextResponse) {
     // On successful transaction
     if(event == WEBHOOK_EVENTS_CHARGE_SUCCESS){
         let isSubscribed = true
-        saveTransactionEvent(request)
         updateUserSubscription(email, isSubscribed)
+        // saveTransactionEvent(request)
     }
 
     // On Subscription cancel
     if(event == WEBHOOK_EVENTS_SUBSCRIPTION_NOT_RENEW){
         let isSubscribed = false
-        console.log("Subscription not renewed for "+email)
         updateUserSubscription(email, isSubscribed)
-        saveTransactionEvent(request)
+        // saveTransactionEvent(request)
     }
+
+        saveTransactionEvent(request)
 
     //Data response
     let data = {
