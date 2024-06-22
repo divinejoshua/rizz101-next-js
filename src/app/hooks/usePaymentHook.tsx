@@ -24,7 +24,7 @@ const usePayment = () => {
           }).then(() => {
             response = paymentId
           }).catch((error) => {
-            console.error('Error saving message: ', error);
+            console.error('Error saving transaction: ', error);
           });
 
           return response
