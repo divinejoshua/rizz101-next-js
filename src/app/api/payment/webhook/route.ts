@@ -11,12 +11,12 @@ export async function POST (req: NextRequest, res : NextResponse) {
     const { updateUserSubscription } = useUser()
 
     //Data
-    let request : any= req.json()
+    let request : any = await req.json()
 
     let event : any = request.event
     let email : any = request.data.customer.email
 
-    saveTransactionEvent(request)
+    saveTransactionEvent("request")
 
     // // On successful transaction
     // if(event == WEBHOOK_EVENTS_CHARGE_SUCCESS){
