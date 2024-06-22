@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        default : '#3B82F6',
+        default : '#EB5757',
         blacktext : '#121212',
         regulartext : '#757575',
         danger : '#FF3737',

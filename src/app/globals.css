@@ -27,3 +27,13 @@ body {
   padding: 10px;
   min-width: 400px;
 }
+
+.main-container{
+  max-width: 400px;
+}
+
+.premium-card{
+  background-color: #fdf2f8;
+  border: 2px solid #EB5757;
+  border-radius: 12px;
+}
