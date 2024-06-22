@@ -2,6 +2,7 @@ import IUser from "@/app/interface/user.interface";
 import { getFirestore } from "firebase-admin/firestore"
 import { v4 as uuidv4 } from 'uuid';
 import { initAdmin } from "../firebase/firebaseAdmin";
+import { USERS_FIREBASE_TABLE } from "../constants/constants";
 
 const useUser = () => {
 
@@ -12,13 +13,13 @@ const useUser = () => {
         if(!user.email) {throw("Email is missing")}
         let response = null
         const firestore = getFirestore()
-        const usersRef = firestore.collection('users');
+        const usersRef = firestore.collection(USERS_FIREBASE_TABLE);
         const snapshot = await usersRef.where('email', '==', user.email).get();
 
         //if user not found, create new user and get new details
         if (snapshot.empty) {
             let newUserId = await createNewUser(user)
-            const newUserSnapshot = await firestore.collection("users").doc(newUserId).get()
+            const newUserSnapshot = await firestore.collection(USERS_FIREBASE_TABLE).doc(newUserId).get()
             response = newUserSnapshot.data()
         } else {
             snapshot.forEach(existingUserDoc => {
@@ -37,7 +38,7 @@ const useUser = () => {
         let response : any = {}
         const userId = uuidv4() //Generate new user id
         const firestore = getFirestore()
-        await firestore.collection('users').doc(userId).set({
+        await firestore.collection(USERS_FIREBASE_TABLE).doc(userId).set({
             id : userId,
             email: user.email,
             name: user.name,
@@ -59,7 +60,7 @@ const useUser = () => {
         if(!userId) {throw("UserId is missing")}
         let response = null
         const firestore = getFirestore()
-        const usersRef = firestore.collection('users');
+        const usersRef = firestore.collection(USERS_FIREBASE_TABLE);
         const snapshot = await usersRef.where('id', '==', userId).get();
 
         //if user not found, create new user and get new details

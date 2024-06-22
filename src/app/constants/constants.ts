@@ -5,3 +5,6 @@ export const ERROR_MESSAGE_REGISTRATION_FIREBASE_ERROR = "Error while registerin
 export const ERROR_MESSAGE_USER_NOT_FOUND = "User not found"
 export const ERROR_MESSAGE_GET_USER_FIREBASE_ERROR = "Error while getting user from database"
 export const ERROR_MESSAGE_INVALID_CHAT_REQUEST = "Chat must have a prompt and a threadId in the request"
+export const USERS_FIREBASE_TABLE = "users"
+export const MESSAGES_FIREBASE_TABLE = "messages"
+export const PAYMENTS_FIREBASE_TABLE = "payments"

@@ -1,28 +1,28 @@
 import { getFirestore } from "firebase-admin/firestore"
 import { v4 as uuidv4 } from 'uuid';
 import { initAdmin } from "../firebase/firebaseAdmin";
-import { MESSAGES_FIREBASE_TABLE } from "../constants/constants";
+import { PAYMENTS_FIREBASE_TABLE } from "../constants/constants";
 
-const useChat = () => {
+const usePayment = () => {
 
     initAdmin()
 
+    //Table
+
     //Save chat
-    const saveChatToDb = async (messageSent : string, aiResponse: string, threadId : string) => {
+    const saveTransactionEvent = async (paymentDetails : any) => {
         // Get the `FieldValue` object
         var FieldValue = require("firebase-admin").firestore.FieldValue;
 
         let response : any = {}
-        const messageId = uuidv4() //Generate new message id
+        const paymentId = uuidv4() //Generate new payment id
         const firestore = getFirestore()
-        await firestore.collection(MESSAGES_FIREBASE_TABLE).doc(messageId).set({
-            id : messageId,
-            messageSent : messageSent,
-            aiResponse : aiResponse,
-            threadId : threadId,
+        await firestore.collection(PAYMENTS_FIREBASE_TABLE).doc(paymentId).set({
+            id : paymentId,
+            paymentDetails : paymentDetails,
             createdAt : FieldValue.serverTimestamp(),
           }).then(() => {
-            response = messageId
+            response = paymentId
           }).catch((error) => {
             console.error('Error saving message: ', error);
           });
@@ -31,7 +31,7 @@ const useChat = () => {
       }
 
 
-    return { saveChatToDb };
+    return { saveTransactionEvent };
 }
 
-export default useChat;
+export default usePayment;
