@@ -16,7 +16,7 @@ export async function POST (req: NextRequest, res : NextResponse) {
     let event : any = request.event
     let email : any = request.data.customer.email
 
-    saveTransactionEvent("request")
+    saveTransactionEvent(request)
 
     // // On successful transaction
     // if(event == WEBHOOK_EVENTS_CHARGE_SUCCESS){
