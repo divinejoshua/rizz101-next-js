@@ -18,19 +18,19 @@ export async function POST (req: NextRequest, res : NextResponse) {
 
     saveTransactionEvent(request)
 
-    // // On successful transaction
-    // if(event == WEBHOOK_EVENTS_CHARGE_SUCCESS){
-    //     let isSubscribed = true
-    //     updateUserSubscription(email, isSubscribed)
-    //     // saveTransactionEvent(request)
-    // }
+    // On successful transaction
+    if(event == WEBHOOK_EVENTS_CHARGE_SUCCESS){
+        let isSubscribed = true
+        updateUserSubscription(email, isSubscribed)
+        // saveTransactionEvent(request)
+    }
 
-    // // On Subscription cancel
-    // if(event == WEBHOOK_EVENTS_SUBSCRIPTION_NOT_RENEW){
-    //     let isSubscribed = false
-    //     updateUserSubscription(email, isSubscribed)
-    //     // saveTransactionEvent(request)
-    // }
+    // On Subscription cancel
+    if(event == WEBHOOK_EVENTS_SUBSCRIPTION_NOT_RENEW){
+        let isSubscribed = false
+        updateUserSubscription(email, isSubscribed)
+        // saveTransactionEvent(request)
+    }
 
     //Data response
     let data = {
