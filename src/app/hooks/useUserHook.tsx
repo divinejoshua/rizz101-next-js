@@ -6,10 +6,10 @@ import { USERS_FIREBASE_TABLE } from "../constants/constants";
 
 const useUser = () => {
 
+    initAdmin()
 
     // This is findUserById and Then create a new user if it doesn't exist
     const getOrCreateUser = async (user :IUser) =>{
-        initAdmin()
         if(!user.email) {throw("Email is missing")}
         let response = null
         const firestore = getFirestore()
@@ -33,7 +33,6 @@ const useUser = () => {
 
     //Create new user
     const createNewUser = async (user : IUser) => {
-        initAdmin()
         if(!user.email) {throw("Email is missing")}
 
         let response : any = {}
@@ -58,7 +57,6 @@ const useUser = () => {
 
     // This function only returns user details if user exist
     const getUserById = async (userId: string) =>{
-        initAdmin()
         if(!userId) {throw("UserId is missing")}
         let response = null
         const firestore = getFirestore()
@@ -78,7 +76,6 @@ const useUser = () => {
 
     // Function to update user's isSubscribed field to true
     const updateUserSubscription = async (email : string, subscribeValue : boolean) => {
-        initAdmin()
         if (!email) { throw ("Email is missing") }
         const firestore = getFirestore();
         const usersRef = firestore.collection(USERS_FIREBASE_TABLE);

@@ -4,9 +4,11 @@ import { initAdmin } from "../firebase/firebaseAdmin";
 import { PAYMENTS_FIREBASE_TABLE } from "../constants/constants";
 
 const usePayment = () => {
+
+    initAdmin()
+
     //Save payment
     const saveTransactionEvent = async (paymentDetails : any) => {
-        initAdmin()
         // Get the `FieldValue` object
         var FieldValue = require("firebase-admin").firestore.FieldValue;
 
