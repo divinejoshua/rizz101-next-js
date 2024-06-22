@@ -13,9 +13,10 @@ export async function POST (req: NextRequest, res : NextResponse) {
     //Data
     let request = await req.json()
 
-    let event = request.event
-    let email = request.data.customer.email
+    let event : any = request.event
+    let email : any = request.data.customer.email
 
+    saveTransactionEvent(request)
     // On successful transaction
     if(event == WEBHOOK_EVENTS_CHARGE_SUCCESS){
         let isSubscribed = true
@@ -29,8 +30,6 @@ export async function POST (req: NextRequest, res : NextResponse) {
         updateUserSubscription(email, isSubscribed)
         // saveTransactionEvent(request)
     }
-
-        saveTransactionEvent(request)
 
     //Data response
     let data = {
