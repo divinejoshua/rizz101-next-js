@@ -7,9 +7,7 @@ const usePayment = () => {
 
     initAdmin()
 
-    //Table
-
-    //Save chat
+    //Save payment
     const saveTransactionEvent = async (paymentDetails : any) => {
         // Get the `FieldValue` object
         var FieldValue = require("firebase-admin").firestore.FieldValue;
