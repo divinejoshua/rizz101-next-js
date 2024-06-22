@@ -1,4 +1,4 @@
-import { WEBHOOK_EVENTS_CHARGE_SUCCESS, WEBHOOK_EVENTS_SUBSCRIPTION_NOT_RENEW } from "@/app/constants/constants";
+import { WEBHOOK_EVENTS_CHARGE_SUCCESS, WEBHOOK_EVENTS_SUBSCRIPTION_DISABLE, WEBHOOK_EVENTS_SUBSCRIPTION_EXPIRING_CARDS, WEBHOOK_EVENTS_SUBSCRIPTION_NOT_RENEW } from "@/app/constants/constants";
 import usePayment from "@/app/hooks/usePaymentHook";
 import useUser from "@/app/hooks/useUserHook";
 import { NextRequest, NextResponse } from "next/server";
@@ -14,7 +14,7 @@ export async function POST (req: NextRequest, res : NextResponse) {
     let request : any = await req.json()
 
     let event : any = request.event
-    let email : any = request.data.customer.email
+    let email : any = request?.data?.customer?.email
 
     await saveTransactionEvent(request)
 
@@ -26,8 +26,14 @@ export async function POST (req: NextRequest, res : NextResponse) {
     }
 
     // On Subscription cancel
-    if(event == WEBHOOK_EVENTS_SUBSCRIPTION_NOT_RENEW){
+    if(event == WEBHOOK_EVENTS_SUBSCRIPTION_NOT_RENEW || event == WEBHOOK_EVENTS_SUBSCRIPTION_DISABLE || event == WEBHOOK_EVENTS_SUBSCRIPTION_EXPIRING_CARDS){
         let isSubscribed = false
+
+        // Get email from Webhook event
+        if(event == WEBHOOK_EVENTS_SUBSCRIPTION_EXPIRING_CARDS){
+            email = request.data[0].customer.email
+        }
+
         await updateUserSubscription(email, isSubscribed)
         // saveTransactionEvent(request)
     }

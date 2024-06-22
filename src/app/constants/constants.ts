@@ -10,5 +10,5 @@ export const MESSAGES_FIREBASE_TABLE = "messages"
 export const PAYMENTS_FIREBASE_TABLE = "payments"
 export const WEBHOOK_EVENTS_CHARGE_SUCCESS = "charge.success"
 export const WEBHOOK_EVENTS_SUBSCRIPTION_NOT_RENEW = "subscription.not_renew"
-
-
+export const WEBHOOK_EVENTS_SUBSCRIPTION_DISABLE = "subscription.disable"
+export const WEBHOOK_EVENTS_SUBSCRIPTION_EXPIRING_CARDS = "subscription.expiring_cards"
