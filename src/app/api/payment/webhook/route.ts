@@ -11,26 +11,26 @@ export async function POST (req: NextRequest, res : NextResponse) {
     const { updateUserSubscription } = useUser()
 
     //Data
-    let request = await req.json()
+    let request : any= await req.json()
 
     let event : any = request.event
     let email : any = request.data.customer.email
 
-    saveTransactionEvent(request)
+    saveTransactionEvent("request")
 
-    // On successful transaction
-    if(event == WEBHOOK_EVENTS_CHARGE_SUCCESS){
-        let isSubscribed = true
-        updateUserSubscription(email, isSubscribed)
-        // saveTransactionEvent(request)
-    }
+    // // On successful transaction
+    // if(event == WEBHOOK_EVENTS_CHARGE_SUCCESS){
+    //     let isSubscribed = true
+    //     updateUserSubscription(email, isSubscribed)
+    //     // saveTransactionEvent(request)
+    // }
 
-    // On Subscription cancel
-    if(event == WEBHOOK_EVENTS_SUBSCRIPTION_NOT_RENEW){
-        let isSubscribed = false
-        updateUserSubscription(email, isSubscribed)
-        // saveTransactionEvent(request)
-    }
+    // // On Subscription cancel
+    // if(event == WEBHOOK_EVENTS_SUBSCRIPTION_NOT_RENEW){
+    //     let isSubscribed = false
+    //     updateUserSubscription(email, isSubscribed)
+    //     // saveTransactionEvent(request)
+    // }
 
     //Data response
     let data = {
