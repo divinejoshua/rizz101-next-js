@@ -2,7 +2,7 @@ import IUser from "@/app/interface/user.interface";
 import { getFirestore } from "firebase-admin/firestore"
 import { v4 as uuidv4 } from 'uuid';
 import { initAdmin } from "../firebase/firebaseAdmin";
-import { USERS_FIREBASE_TABLE } from "../constants/constants";
+import { USERS_DELETED_FIREBASE_TABLE, USERS_FIREBASE_TABLE } from "../constants/constants";
 
 const useUser = () => {
 
@@ -101,7 +101,47 @@ const useUser = () => {
         }
     }
 
-    return { getOrCreateUser, createNewUser, getUserById, updateUserSubscription };
+        // Function to delate the user
+        const deleteUser = async (userId : string) => {
+
+            if(!userId) {throw("UserId is missing")}
+            const firestore = getFirestore()
+            const usersRef = firestore.collection(USERS_FIREBASE_TABLE);
+            const snapshot = await usersRef.where('id', '==', userId).get();
+
+            //Find the user
+            let email = null
+            if (!snapshot.empty) {
+                snapshot.forEach(doc => {
+                    email = doc.data().email;
+                });
+
+                // Update the user row
+                await usersRef.doc(userId).update({ isValid: false });
+                const updatedUserSnapshot = await usersRef.doc(userId).get();
+                updatedUserSnapshot.data();
+
+                //Add to delete user table
+                let response : any = {}
+                const deletedUserId = uuidv4() //Generate new user id
+                var FieldValue = require("firebase-admin").firestore.FieldValue;
+                await firestore.collection(USERS_DELETED_FIREBASE_TABLE).doc(deletedUserId).set({
+                    id : deletedUserId,
+                    email : email,
+                    createdAt : FieldValue.serverTimestamp(),
+                }).then(() => {
+                    response = deletedUserId
+                }).catch((error) => {
+                    console.error('Error registering user: ', error);
+                });
+
+            }
+
+            return email
+
+        }
+
+    return { getOrCreateUser, createNewUser, getUserById, updateUserSubscription, deleteUser };
 }
 
 export default useUser;
