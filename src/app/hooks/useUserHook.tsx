@@ -38,12 +38,14 @@ const useUser = () => {
         let response : any = {}
         const userId = uuidv4() //Generate new user id
         const firestore = getFirestore()
+        var FieldValue = require("firebase-admin").firestore.FieldValue;
         await firestore.collection(USERS_FIREBASE_TABLE).doc(userId).set({
             id : userId,
             email: user.email,
             name: user.name,
             authProvider: user.authProvider,
-            isSubscribed: false,
+            isValid: false,
+            createdAt : FieldValue.serverTimestamp(),
           }).then(() => {
             response = userId
           }).catch((error) => {
@@ -91,7 +93,7 @@ const useUser = () => {
         });
 
         if (userId) {
-            await usersRef.doc(userId).update({ isSubscribed: subscribeValue });
+            await usersRef.doc(userId).update({ isValid: subscribeValue });
             const updatedUserSnapshot = await usersRef.doc(userId).get();
             return updatedUserSnapshot.data();
         } else {
