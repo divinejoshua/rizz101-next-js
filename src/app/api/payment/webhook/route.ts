@@ -20,7 +20,7 @@ export async function POST (req: NextRequest, res : NextResponse) {
     if(event == WEBHOOK_EVENTS_CHARGE_SUCCESS){
         let isSubscribed = true
         await updateUserSubscription(email, isSubscribed)
-        saveTransactionEvent(request)
+        await saveTransactionEvent(request)
     }
 
     // On Subscription cancel
@@ -36,7 +36,7 @@ export async function POST (req: NextRequest, res : NextResponse) {
         }
 
         await updateUserSubscription(email, isSubscribed)
-        saveTransactionEvent(request)
+        await saveTransactionEvent(request)
     }
 
     //Data response
