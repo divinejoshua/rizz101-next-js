@@ -70,7 +70,7 @@ const useUser = () => {
             snapshot.forEach(doc => {
                 response = doc.data()
             });
-        } 
+        }
         // Return the user
         return response
     }
