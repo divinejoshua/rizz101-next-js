@@ -34,7 +34,7 @@ export default function GoogleLoginPage() {
   return (
     <div className='center-page'>
       <center>
-          <button onClick={logGoogleUser} className='btn flex place-content-center mt-7 bg-default text-white py-2 px-2 rounded-full font-bold drop-shadow'>
+          <button onClick={logGoogleUser} className='btn flex place-content-center mt-7 bg-blue-500 text-white py-2 px-2 rounded-full font-bold drop-shadow'>
           <Image
             src={googleBtnSvg}
             width={32}
