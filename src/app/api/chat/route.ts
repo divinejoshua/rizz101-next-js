@@ -70,7 +70,8 @@ async function AIResponder(prompt : any) {
     const completion = await openai.chat.completions.create({
         messages: prompt,
         model: "gpt-4o",
-        frequency_penalty : 2.0
+        frequency_penalty : 2.0,
+        stop: ["{}"],
     });
     return completion.choices[0].message.content;
 }
